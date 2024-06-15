@@ -21,4 +21,5 @@ public class PlayerService {
         Optional<Player> player = playerRepository.findById(id);
         return player.orElseThrow(()->new ResourceNotFoundException(id));
     }    
+
 }
