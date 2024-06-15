@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "players")
+@RequestMapping(value = "/players")
 public class PlayerResource {
     @Autowired
     private PlayerService playerService;
