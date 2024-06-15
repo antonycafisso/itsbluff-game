@@ -7,11 +7,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ChoiceService {
-    @Autowired
-    private ChoiceRepository choiceRepository;
-
-    public List<Choice> findAll(){
-        return choiceRepository.findAll();
-    }
 
 }
