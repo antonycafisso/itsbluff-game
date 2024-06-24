@@ -7,12 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.project.itsbluff.choice.Choice;
-import com.project.itsbluff.choice.LetterEnum;
-import com.project.itsbluff.choice.SideEnum;
 import com.project.itsbluff.player.Player;
 import com.project.itsbluff.player.PlayerRepository;
-import com.project.itsbluff.playerChoice.PlayerChoice;
 
 @Configuration
 @Profile("test")

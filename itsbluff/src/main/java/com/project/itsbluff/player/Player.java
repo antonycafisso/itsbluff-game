@@ -66,6 +66,8 @@ public class Player implements Serializable {
         this.points = points;
     }
 
+    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -91,6 +93,16 @@ public class Player implements Serializable {
         return true;
     }
 
-    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Player{");
+        sb.append("id=").append(id);
+        sb.append(", name=").append(name);
+        sb.append(", turn=").append(turn);
+        sb.append(", points=").append(points);
+        sb.append('}');
+        return sb.toString();
+    }
     
 }

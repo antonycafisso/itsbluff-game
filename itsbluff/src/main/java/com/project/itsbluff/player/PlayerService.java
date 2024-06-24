@@ -22,4 +22,19 @@ public class PlayerService {
         return player.orElseThrow(()->new ResourceNotFoundException(id));
     }    
 
+    public Player verifyPlayerTurn(Player player){
+        List<Player> players = playerRepository.findAll();
+        if(player.getId()==1 && player.isTurn()==true){
+            players.get(0).setTurn(true);
+            players.get(1).setTurn(false);
+            System.out.println(players.get(1));
+            playerRepository.saveAll(players);
+            return players.get(1);
+        }
+        players.get(0).setTurn(true);
+        players.get(1).setTurn(false);
+        playerRepository.saveAll(players);
+        return players.get(0);
+    }
+
 }
