@@ -22,8 +22,12 @@ public class GameResource {
 
     @PostMapping(value = "/addNewLetter")
     public ResponseEntity<Move> addNewLetter(@RequestBody Move move) {
+        //verify player turn
         move.getPlayerOption().setPlayer(playerService.verifyPlayerTurn(move.getPlayerOption().getPlayer()));
+        //change the word, adding new letter
         move.getWord().setContent(wordService.addNewLetter(move).toString());
+
+        
         return ResponseEntity.ok().body(move);
     }
 }

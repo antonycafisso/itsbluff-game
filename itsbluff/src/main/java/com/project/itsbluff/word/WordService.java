@@ -1,14 +1,33 @@
 package com.project.itsbluff.word;
 
+import java.net.URI;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import com.project.itsbluff.enums.Letter;
 import com.project.itsbluff.enums.Side;
+import com.project.itsbluff.exceptions.DictionaryApiException;
 import com.project.itsbluff.move.Move;
 import com.project.itsbluff.playerOption.PlayerOption;
 
 @Service
 public class WordService {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${api.ninjas.dictionary.url}")
+    private String apiUrl;
+
+    @Value("${api.ninjas.api.key}")
+    private String apiKey;
+
     public Word getRandomInitialLetter() {
         Letter letter = Letter.getRandomLetter();
         return new Word(letter.toString());
@@ -27,5 +46,36 @@ public class WordService {
     public WordAddNewLetter fromDto(PlayerOption playerOption, Word word) {
         WordAddNewLetter wordAddNewLetter = new WordAddNewLetter(playerOption.getLetter(), word);
         return wordAddNewLetter;
+    }
+
+    private WordMeaningDTO verifyWord(String word) {
+        String url = apiUrl + "?word=" + word;
+        try {
+            RequestEntity<Void> request = RequestEntity
+                    .get(URI.create(url))
+                    .header("X-Api-Key", apiKey)
+                    .build();
+
+            ResponseEntity<WordMeaningDTO[]> response = restTemplate.exchange(request, WordMeaningDTO[].class);
+            if (response != null && response.getBody() != null && response.getBody().length > 0) {
+                return response.getBody()[0];
+            } else {
+                return null;
+            }
+        } catch (RestClientException e) {
+            throw new DictionaryApiException(e.getMessage());
+        }
+    }
+
+    public Word toDTO(WordMeaningDTO wordMeaningDTO){
+        if(wordMeaningDTO == null){
+            return null;
+        }
+
+        Word word = new Word();
+        word.setContent(wordMeaningDTO.getWord());
+        word.setExits(wordMeaningDTO.isValid());
+        word.setMeaning(wordMeaningDTO.getDefinition());
+        return word;
     }
 }
