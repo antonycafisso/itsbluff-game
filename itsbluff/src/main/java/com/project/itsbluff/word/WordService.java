@@ -48,7 +48,7 @@ public class WordService {
         return wordAddNewLetter;
     }
 
-    private WordMeaningDTO verifyWord(String word) {
+    private WordMeaningDTO verifyWordAPI(String word) {
         String url = apiUrl + "?word=" + word;
         try {
             RequestEntity<Void> request = RequestEntity
@@ -56,9 +56,9 @@ public class WordService {
                     .header("X-Api-Key", apiKey)
                     .build();
 
-            ResponseEntity<WordMeaningDTO[]> response = restTemplate.exchange(request, WordMeaningDTO[].class);
-            if (response != null && response.getBody() != null && response.getBody().length > 0) {
-                return response.getBody()[0];
+            ResponseEntity<WordMeaningDTO> response = restTemplate.exchange(request, WordMeaningDTO.class);
+            if (response != null && response.getBody() != null) {
+                return response.getBody();
             } else {
                 return null;
             }
@@ -67,7 +67,7 @@ public class WordService {
         }
     }
 
-    public Word toDTO(WordMeaningDTO wordMeaningDTO){
+    public Word mapToWord(WordMeaningDTO wordMeaningDTO){
         if(wordMeaningDTO == null){
             return null;
         }
@@ -76,6 +76,14 @@ public class WordService {
         word.setContent(wordMeaningDTO.getWord());
         word.setExits(wordMeaningDTO.isValid());
         word.setMeaning(wordMeaningDTO.getDefinition());
+        return word;
+    }
+
+    public Word wordExists(Word word){
+        if(verifyWordAPI(word.getContent()).isValid()){
+            WordMeaningDTO wordMeaningDTO= verifyWordAPI(word.getContent());
+            return mapToWord(wordMeaningDTO);
+        }
         return word;
     }
 }

@@ -19,6 +19,4 @@ public class WordResource {
         return ResponseEntity.ok().body(letter.content);
     }
 
-
-
 }
