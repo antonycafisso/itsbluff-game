@@ -27,7 +27,7 @@ public class GameResource {
         //change the word, adding new letter
         move.getWord().setContent(wordService.addNewLetter(move).toString());
         //verify word on dictionary api
-        move.setWord(wordService.wordExists(move.getWord()));
+        move.setWord(wordService.wordExists(move));
 
         return ResponseEntity.ok().body(move);
     }

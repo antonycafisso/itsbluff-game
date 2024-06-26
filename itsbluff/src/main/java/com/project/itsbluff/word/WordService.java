@@ -14,6 +14,7 @@ import com.project.itsbluff.enums.Letter;
 import com.project.itsbluff.enums.Side;
 import com.project.itsbluff.exceptions.DictionaryApiException;
 import com.project.itsbluff.move.Move;
+import com.project.itsbluff.player.PlayerService;
 import com.project.itsbluff.playerOption.PlayerOption;
 
 @Service
@@ -21,6 +22,9 @@ public class WordService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private PlayerService playerService;
 
     @Value("${api.ninjas.dictionary.url}")
     private String apiUrl;
@@ -79,11 +83,12 @@ public class WordService {
         return word;
     }
 
-    public Word wordExists(Word word){
-        if(verifyWordAPI(word.getContent()).isValid()){
-            WordMeaningDTO wordMeaningDTO= verifyWordAPI(word.getContent());           
+    public Word wordExists(Move move){
+        if(verifyWordAPI(move.getWord().getContent()).isValid()){
+            WordMeaningDTO wordMeaningDTO= verifyWordAPI(move.getWord().getContent());           
+            playerService.deductPoints(move.getPlayerOption().getPlayer(), 1);
             return mapToWord(wordMeaningDTO);
         }
-        return word;
+        return move.getWord();
     }
 }
