@@ -81,7 +81,7 @@ public class WordService {
 
     public Word wordExists(Word word){
         if(verifyWordAPI(word.getContent()).isValid()){
-            WordMeaningDTO wordMeaningDTO= verifyWordAPI(word.getContent());
+            WordMeaningDTO wordMeaningDTO= verifyWordAPI(word.getContent());           
             return mapToWord(wordMeaningDTO);
         }
         return word;
