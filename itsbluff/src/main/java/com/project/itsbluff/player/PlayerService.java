@@ -25,8 +25,8 @@ public class PlayerService {
     public Player verifyPlayerTurn(Player player){
         List<Player> players = playerRepository.findAll();
         if(player.getId()==1 && player.isTurn()==true){
-            players.get(0).setTurn(true);
-            players.get(1).setTurn(false);
+            players.get(0).setTurn(false);
+            players.get(1).setTurn(true);
             System.out.println(players.get(1));
             playerRepository.saveAll(players);
             return players.get(1);
