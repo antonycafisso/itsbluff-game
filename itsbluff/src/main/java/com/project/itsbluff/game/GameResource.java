@@ -27,14 +27,14 @@ public class GameResource {
         // change the word, adding new letter
         move.getWord().setContent(wordService.addNewLetter(move).toString());
         // verify word on dictionary api
-        move.setWord(wordService.wordExists(move));
+        move.setWord(wordService.wordExistsAddNewLetter(move));
 
         return ResponseEntity.ok().body(move);
     }
 
     @PostMapping(value = "/challenge")
     public ResponseEntity<Move> challengeBluff(@RequestBody Move move) {
-        playerService.handledChallengeBluff(move, wordService.ChallengeWordExists(move));
+        move.setWord(wordService.wordExistsChallengeBluff(move));
         move.getPlayerOption().setPlayer(playerService.verifyPlayerTurn(move.getPlayerOption().getPlayer()));
         return ResponseEntity.ok().body(move);
     }

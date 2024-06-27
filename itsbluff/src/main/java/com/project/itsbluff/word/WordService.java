@@ -71,8 +71,8 @@ public class WordService {
         }
     }
 
-    public Word mapToWord(WordMeaningDTO wordMeaningDTO){
-        if(wordMeaningDTO == null){
+    public Word mapToWord(WordMeaningDTO wordMeaningDTO) {
+        if (wordMeaningDTO == null) {
             return null;
         }
 
@@ -83,17 +83,26 @@ public class WordService {
         return word;
     }
 
-    public Word wordExists(Move move){
-        if(verifyWordAPI(move.getWord().getContent()).isValid()){
-            WordMeaningDTO wordMeaningDTO= verifyWordAPI(move.getWord().getContent());           
+    public Word wordExistsAddNewLetter(Move move) {
+        if (verifyWordAPI(move.getWord().getContent()).isValid()) {
+            WordMeaningDTO wordMeaningDTO = verifyWordAPI(move.getWord().getContent());
             playerService.deductPoints(move.getPlayerOption().getPlayer(), 1);
             return mapToWord(wordMeaningDTO);
         }
         return move.getWord();
     }
 
-    public boolean ChallengeWordExists(Move move){
-        if(verifyWordAPI(move.getWord().getContent()).isValid()){
+    public Word wordExistsChallengeBluff(Move move) {
+        if (verifyWordAPI(move.getWord().getContent()).isValid()) {
+            WordMeaningDTO wordMeaningDTO = verifyWordAPI(move.getWord().getContent());
+            playerService.deductPointsFromOpponent(move.getPlayerOption().getPlayer(), 1);
+            return mapToWord(wordMeaningDTO);
+        }
+        return null;
+    }
+
+    public boolean ChallengeWordExists(Move move) {
+        if (verifyWordAPI(move.getWord().getContent()).isValid()) {
             return true;
         }
         return false;
