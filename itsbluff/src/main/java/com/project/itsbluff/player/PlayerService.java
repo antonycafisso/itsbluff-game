@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.itsbluff.exceptions.ResourceNotFoundException;
+import com.project.itsbluff.move.Move;
 
 @Service
 public class PlayerService {
@@ -47,5 +48,23 @@ public class PlayerService {
     public void deductPoints(Player player, int points){
         player.setPoints(player.getPoints() - points);
         playerRepository.save(player);
+    }
+
+    public void deductPointsFromOpponent(Player player, int points){
+        List<Player> players = playerRepository.findAll();
+        if(player.getId()==1){
+            deductPoints(players.get(1), points);
+            return;
+        }
+        deductPoints(players.get(0), points);
+    }
+
+    public Move handledChallengeBluff(Move move, boolean wordExists){
+        if(wordExists){
+            deductPointsFromOpponent(move.getPlayerOption().getPlayer(), 1);
+            return move;
+        }
+        deductPoints(move.getPlayerOption().getPlayer(), 2);
+        return move;
     }
 }

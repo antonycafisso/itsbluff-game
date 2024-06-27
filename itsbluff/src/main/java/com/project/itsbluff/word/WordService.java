@@ -91,4 +91,11 @@ public class WordService {
         }
         return move.getWord();
     }
+
+    public boolean ChallengeWordExists(Move move){
+        if(verifyWordAPI(move.getWord().getContent()).isValid()){
+            return true;
+        }
+        return false;
+    }
 }
