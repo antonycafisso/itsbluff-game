@@ -95,10 +95,11 @@ public class WordService {
     public Word wordExistsChallengeBluff(Move move) {
         if (verifyWordAPI(move.getWord().getContent()).isValid()) {
             WordMeaningDTO wordMeaningDTO = verifyWordAPI(move.getWord().getContent());
-            playerService.deductPointsFromOpponent(move.getPlayerOption().getPlayer(), 1);
+            playerService.deductPoints(move.getPlayerOption().getPlayer(), 1);
             return mapToWord(wordMeaningDTO);
         }
-        return null;
+        playerService.deductPointsFromOpponent(move.getPlayerOption().getPlayer(), 2);
+        return new Word("Word not found", false,null);
     }
 
     public boolean ChallengeWordExists(Move move) {
