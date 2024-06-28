@@ -38,4 +38,11 @@ public class GameResource {
         move.getPlayerOption().setPlayer(playerService.verifyPlayerTurn(move.getPlayerOption().getPlayer()));
         return ResponseEntity.ok().body(move);
     }
+
+    @PostMapping(value = "/giveup")
+    public ResponseEntity<Move> playerGiveUp(@RequestBody Move move){
+        playerService.deductPoints(move.getPlayerOption().getPlayer(), 1);
+        move.getPlayerOption().setPlayer(playerService.verifyPlayerTurn(move.getPlayerOption().getPlayer()));
+        return ResponseEntity.ok().body(move);
+    }
 }
