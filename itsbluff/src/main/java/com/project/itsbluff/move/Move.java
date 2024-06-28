@@ -16,6 +16,11 @@ public class Move {
         this.word = word;
     }
 
+    public Move(PlayerOption playerOption) {
+        this.playerOption = playerOption;
+        this.word = word;
+    }
+
     public PlayerOption getPlayerOption() {
         return playerOption;
     }

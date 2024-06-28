@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.itsbluff.move.Move;
+import com.project.itsbluff.move.MovePlayerOptionDTO;
+import com.project.itsbluff.move.MoveService;
 import com.project.itsbluff.player.PlayerService;
 import com.project.itsbluff.word.WordService;
 
@@ -19,6 +21,9 @@ public class GameResource {
 
     @Autowired
     private PlayerService playerService;
+
+    @Autowired
+    private MoveService moveService;
 
     @PostMapping(value = "/addNewLetter")
     public ResponseEntity<Move> addNewLetter(@RequestBody Move move) {
@@ -40,9 +45,10 @@ public class GameResource {
     }
 
     @PostMapping(value = "/giveup")
-    public ResponseEntity<Move> playerGiveUp(@RequestBody Move move){
-        playerService.deductPoints(move.getPlayerOption().getPlayer(), 1);
-        move.getPlayerOption().setPlayer(playerService.verifyPlayerTurn(move.getPlayerOption().getPlayer()));
+    public ResponseEntity<Move> playerGiveUp(@RequestBody MovePlayerOptionDTO movePlayerOptionDTO){
+        Move move = moveService.fromDTO(movePlayerOptionDTO);
+        playerService.deductPoints(movePlayerOptionDTO.getPlayerOption().getPlayer(), 1);
+        move.getPlayerOption().setPlayer(playerService.verifyPlayerTurn(movePlayerOptionDTO.getPlayerOption().getPlayer()));
         return ResponseEntity.ok().body(move);
     }
 }
