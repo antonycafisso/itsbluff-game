@@ -5,6 +5,8 @@
 Its Bluff é um jogo interativo onde os jogadores podem aprimorar o vocabulário em inglês. Este repositório contém o frontend da aplicação,
 responsável pela interface do usuário e pela interação com o backend. 
 
+![Diagrama de Caso de uso](https://github.com/antonycafisso/itsbluff-game/assets/75596780/d03484f2-03e2-4632-8a65-e7f31f76c697)
+
 ## Regras do Jogo
 
 Assim que iniciado, o jogo disponibilizará aos jogadores uma letra gerada aleatoriamente.
